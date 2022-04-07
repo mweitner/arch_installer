@@ -81,7 +81,7 @@ dialog --title "Root password" \
   10 60
 config_user root
 
-dialog -title "Add user" \
+dialog --title "Add user" \
   --msgbox "Let's create another user." \
   10 60
 config_user

@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 mkdir -p "/home/$(whoami)/Documents"
 mkdir -p "/home/$(whoami)/Downloads"
 
