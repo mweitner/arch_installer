@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 # Never run pacman -Sy on your system!
 # here we start without live system that's fine
 pacman -Sy dialog
@@ -133,9 +135,9 @@ genfstab -U /mnt >> /mnt/etc/fstab
 echo "$uefi" > /mnt/var_uefi
 echo "$hd" > /mnt/var_hd
 mv comp /mnt/comp
-
+ 
 curl https://raw.githubusercontent.com/mweitner\
-  /arch_installer/master/install_chroot.sh > /mnt/install_chroot.sh
+/arch_installer/main/install_chroot.sh > /mnt/install_chroot.sh
 # change root dir of live system
 arch-chroot /mnt bash install_chroot.sh
 
