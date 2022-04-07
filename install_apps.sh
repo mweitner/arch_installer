@@ -20,13 +20,14 @@ apps=("essential" "Essentials" on
       "notifier" "Notification tools" on
       "git" "Git & git tools" on
       "i3" "i3 wm" on
-      "zsh" "The Z-Shell (zsh)" on
+      "shell" "The Z-Shell (zsh) and tools" on
       "neovim" "Neovim" on
-      "urxvt" "URxvt" on
+      "urxvt" "URxvt terminal emulator" on
+      "audio" "Audio support (ALSA)" on
       "firefox" "Firefox (browser)" off
       "js" "JavaScript tooling" off
       "qutebrowser" "Qutebrowser (browser)" off
-      "lynx" "Lynx (browser)" off)
+      "audio-app" "Audio control app (pavucontrol)" off)
 
 dialog --checklist \
 "You can now choose what group of application you want to install. \n\n\
