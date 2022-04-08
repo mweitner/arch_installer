@@ -15,6 +15,9 @@ tools,htop,Interactive process viewer
 tools,zathura-pdf-mupdf,PDF support for Zathura (MuPDF backend)
 tools,unzip,For extracting and viewing files in .zip archives
 tools,mc,A file manager that emulates Norton Commander
+tools,xdotool,Command-line X11 automation tool
+tools,xclip,Command line interface to the X11 clipboard
+tools,maim,Utility to take a screenshot using imlib2
 tmux,tmux,Terminal multiplexer
 tmux,tmuxp,Configure tmux session + windows + panes via config files
 notifier,dunst,Notification system
@@ -43,3 +46,11 @@ urxvt,urxvt-tabbedex-mina86-git,Improved tabs for Urxvt (AUR)
 audio-app,pavucontrol,PulseAudio Volume Control
 firefox,firefox,Browser Firefox
 qutebrowser,qutebrowser,A keyboard-driven vim-like browser based on PyQt5
+kvm,qemu,A open source machine emulator and virtualizer
+kvm,vde2,Virtual Distributed Ethernet for emulators like qemu
+kvm,iptables-nft,Linux kernel packet control tool (using nft interface)
+kvm,dnsmasq,Lightweight easy to configure DNS forwarder and DHCP server
+kvm,bridge-utils,Utilities for configuring the Linux ethernet bridge
+kvm,openbsd-netcat,TCP/IP swiss army knife. OpenBSD variant
+kvm,dmidecode,Desktop Management Interface table related utilities
+kvm,virt-manager,Desktop user interface for managing virtual machines

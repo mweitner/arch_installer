@@ -1,3 +1,4 @@
 rsync_exclude.txt
+sync_push.sh
 .git/
 .gitignore

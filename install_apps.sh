@@ -27,7 +27,8 @@ apps=("essential" "Essentials" on
       "firefox" "Firefox (browser)" off
       "js" "JavaScript tooling" off
       "qutebrowser" "Qutebrowser (browser)" off
-      "audio-app" "Audio control app (pavucontrol)" off)
+      "audio-app" "Audio control app (pavucontrol)" off
+      "kvm" "KVM virtualization" off)
 
 dialog --checklist \
 "You can now choose what group of application you want to install. \n\n\
