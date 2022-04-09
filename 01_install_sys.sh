@@ -140,6 +140,7 @@ arch_installer_root="/arch_installer"
 if [ -f "${arch_installer_root}/02_install_chroot.sh" ]; then
   cp -rf "${arch_installer_root}" /mnt
 else
+  mkdir -p "/mnt${arch_installer_root}"
   curl https://raw.githubusercontent.com/mweitner\
 /arch_installer/main/02_install_chroot.sh > /mnt${arch_installer_root}/02_install_chroot.sh
 fi
