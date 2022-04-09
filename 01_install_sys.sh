@@ -3,8 +3,8 @@
 set -e
 
 # Never run pacman -Sy on your system!
-# here we start without live system that's fine
-pacman -Sy dialog
+# here we start with our live system that's fine
+pacman -Sy --noconfirm dialog
 
 timedatectl set-ntp true
 
@@ -15,7 +15,7 @@ dialog --defaultno --title "Are you sure?" --yesno \
   Do you want to continue?" 15 60 || exit
 
 dialog --no-cancel --inputbox "Enter a name for your computer." \
-  10 60 2> comp
+  10 60 2> /tmp/comp
 
 uefi=0
 ls /sys/firmware/efi/efivars 2> /dev/null && uefi=1
@@ -134,28 +134,29 @@ genfstab -U /mnt >> /mnt/etc/fstab
 # persisting important values for next script
 echo "$uefi" > /mnt/var_uefi
 echo "$hd" > /mnt/var_hd
-mv comp /mnt/comp
+mv /tmp/comp /mnt/comp
  
-curl https://raw.githubusercontent.com/mweitner\
-/arch_installer/main/install_chroot.sh > /mnt/install_chroot.sh
-# change root dir of live system
-arch-chroot /mnt bash install_chroot.sh
+arch_installer_root="/arch_installer"
+if [ -f "${arch_installer_root}/02_install_chroot.sh" ]; then
+  cp -rf "${arch_installer_root}" /mnt
+else
+  curl https://raw.githubusercontent.com/mweitner\
+/arch_installer/main/02_install_chroot.sh > /mnt${arch_installer_root}/02_install_chroot.sh
+fi
 
-rm /mnt/var_uefi
-rm /mnt/var_hd
-rm /mnt/install_chroot.sh
-
-####################
-# Farewell Message #
-####################
-
-dialog --title "To reboot or not to reboot?" --yesno \
-  "Congrats! The install is done! \n\n\
-  Do you want to reboot your computer?" 20 60
+dialog --title "Install chroot" --yesno \
+  "System preparation done.\n\n\
+  Do you want to start 02_install_chroot.sh automatically?" \
+  20 60
 
 response=$?
-case $response in
-  0) reboot;;
-  1) clear;;
-esac
+# 0: is yes, 1: is no
+if [ $response -eq 0 ]; then
+  arch-chroot /mnt bash "${arch_installer_root}/02_install_chroot.sh"
+else
+  arch-chroot /mnt
+  exit 0
+fi
+
+. "${arch_installer_root}/05_install_farewell.sh"
 

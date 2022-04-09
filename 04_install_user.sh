@@ -5,11 +5,14 @@ set -e
 mkdir -p "/home/$(whoami)/Documents"
 mkdir -p "/home/$(whoami)/Downloads"
 
-localectl --no-convert set-x11-keymap "us"
+# this must be done at i3 level when x11 is started
+# here it's not supported
+#localectl --no-convert set-x11-keymap "us"
 
 function aur_install() {
-  curl -O "https://aur.archlinux.org/cgit/aur.git/snapshot/$1.tar.gz" \
-  && tar -xvf "$1.tar.gz" \
+  curl -L "https://aur.archlinux.org/cgit/aur.git/snapshot/$1.tar.gz" \
+    > "$1.tar.gz"
+  tar -xvf "$1.tar.gz" \
   && cd "$1" \
   && makepkg --noconfirm -si \
   && cd - \
@@ -31,12 +34,10 @@ function aur_check() {
 }
 
 cd /tmp
-dialog --infobox "Installing \"Yay\", an AUR helper..." 10 60
-aur_check yay
-
 count=$(wc -l < /tmp/aur_queue)
 c=0
 
+echo "install_user.sh:42: going to install from /tmp/aur_queue"
 cat /tmp/aur_queue | while read -r line
 do
   c=$(( "$c" + 1 ))
@@ -45,6 +46,9 @@ do
     10 60
   aur_check "$line"
 done
+
+# install spacevim hard coded here
+curl -sLf https://spacevim.org/install.sh | bash
 
 #########################
 # Install dotfiles repo #

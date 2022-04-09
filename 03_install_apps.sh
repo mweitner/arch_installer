@@ -2,11 +2,15 @@
 
 set -e
 
+arch_installer_root=/arch_installer
+mkdir -p "${arch_installer_root}"
 name=$(cat /tmp/user_name)
 
-apps_path="/tmp/apps.csv"
-curl https://raw.githubusercontent.com/mweitner\
+apps_path="${arch_installer_root}/apps.csv"
+if [ ! -f "$apps_path" ]; then
+  curl https://raw.githubusercontent.com/mweitner\
 /arch_installer/main/apps.csv > $apps_path
+fi
 
 dialog --title "Welcome!" \
 --msgbox "Welcome to the install script for your apps and dotfiles!" \
@@ -56,6 +60,7 @@ dialog --title "Let's go!" --msgbox \
 # Install Packages #
 ####################
 
+touch /tmp/aur_queue
 c=0
 echo "$packages" | while read -r line; do
   c=$(( "$c" + 1 ))
@@ -80,11 +85,28 @@ done
 
 # Permission for power users sudo
 # not best way normally we should use visudo command but it works
-echo "%wheel ALL=(ALL) ALL" >> /etc/sudoers
+#echo "%wheel ALL=(ALL) ALL" >> /etc/sudoers
+# uncomment the wheel group permission to be sudoers
+sed -i "s/^\# %wheel ALL=/%wheel ALL=/g" /etc/sudoers
+
+# install yay 
+dialog --infobox "Installing \"Yay\", an AUR helper..." 10 60
+if [ ! -d "/tmp/yay" ]; then
+  git clone https://aur.archlinux.org/yay.git /tmp/yay
+fi
+chown -R $name /tmp/yay
+cd /tmp/yay
+sudo -u "$name" makepkg -fs
+pacman -U --noconfirm yay-*.pkg.tar.zst
 
 # Invoke last installer script
-curl https://raw.githubusercontent.com/mweitner\
-/arch_installer/main/install_user.sh > /tmp/install_user.sh;
+if [ ! -f "${arch_installer_root}/04_install_user.sh" ]; then
+  curl https://raw.githubusercontent.com/mweitner\
+/arch_installer/main/04_install_user.sh > "${arch_installer_root}/04_install_user.sh";
+fi
+# before calling script make sure user is able to
+chown $name /tmp/aur_queue
+
 # switch user and run the final script
-sudo -u "$name" sh /tmp/install_user.sh
+sudo -u "$name" sh "${arch_installer_root}/04_install_user.sh"
 

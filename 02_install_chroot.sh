@@ -4,13 +4,14 @@ set -e
 
 uefi=$(cat /var_uefi)
 hd=$(cat /var_hd)
-
 # name our system
 cat /comp > /etc/hostname && rm /comp
 
+arch_installer_root=/arch_installer
+mkdir -p "${arch_installer_root}"
 
 ######################
-# Install Bootlaoder #
+# Install Bootloader #
 ######################
 
 pacman --noconfirm -S dialog
@@ -88,10 +89,13 @@ config_user
 
 echo "$name" > /tmp/user_name
 
+if [ !  -f "${arch_installer_root}/03_install_apps.sh" ]; then
+  curl https://raw.githubusercontent.com/mweitner\
+/arch_installer/main/03_install_apps.sh > "${arch_installer_root}/03_install_apps.sh"
+fi
+
 dialog --title "Continue installation" --yesno \
   "Do you want to install all your apps and your dotfiles?" \
   10 60 \
-&& curl https://raw.githubusercontent.com/mweitner\
-/arch_installer/main/install_apps.sh > /tmp/install_apps.sh \
-&& bash /tmp/install_apps.sh
+&& bash "${arch_installer_root}/03_install_apps.sh"
 
