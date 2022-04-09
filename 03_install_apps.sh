@@ -96,7 +96,7 @@ if [ ! -d "/tmp/yay" ]; then
 fi
 chown -R $name /tmp/yay
 cd /tmp/yay
-sudo -u "$name" makepkg -fs
+sudo -u "$name" makepkg -fs --noconfirm
 pacman -U --noconfirm yay-*.pkg.tar.zst
 
 # Invoke last installer script

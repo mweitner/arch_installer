@@ -63,7 +63,7 @@ function erase_disk() {
       | dialog \
       --title "Formatting $hd..." \
       --progressbox --stdout 20 60;;
-    2) shred -v "$hd" \
+    2) shred -v "$hd" 2>&1 \
       | dialog \
       --title "Formatting $hd..." \
       --progressbox --stdout 20 60;;
@@ -153,10 +153,10 @@ response=$?
 # 0: is yes, 1: is no
 if [ $response -eq 0 ]; then
   arch-chroot /mnt bash "${arch_installer_root}/02_install_chroot.sh"
+  . "${arch_installer_root}/05_install_farewell.sh"
 else
   arch-chroot /mnt
-  exit 0
+  echo "You are able to call manually install scripts now and debug if needed"
 fi
 
-. "${arch_installer_root}/05_install_farewell.sh"
 

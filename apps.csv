@@ -39,7 +39,6 @@ shell,ttf-nerd-fonts-symbols-mono,High number of mono fonts (1000-em)
 shell,ncurses,System V Release 4.0 curses emulation library
 neovim,neovim,Editor... and much more
 neovim,python-neovim,Python for neovim
-neovim,python2-neovim,Python2 for neovim (AUR)
 neovim,ruby-neovim,Ruby for neovim (AUR)
 urxvt,rxvt-unicode,Terminal Urxvt
 urxvt,urxvt-tabbedex-mina86-git,Improved tabs for Urxvt (AUR)
