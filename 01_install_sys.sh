@@ -143,6 +143,8 @@ else
   mkdir -p "/mnt${arch_installer_root}"
   curl https://raw.githubusercontent.com/mweitner\
 /arch_installer/main/02_install_chroot.sh > /mnt${arch_installer_root}/02_install_chroot.sh
+  curl https://raw.githubusercontent.com/mweitner\
+/arch_installer/main/05_install_farewell.sh > /mnt${arch_installer_root}/05_install_farewell.sh
 fi
 
 dialog --title "Install chroot" --yesno \
@@ -154,7 +156,7 @@ response=$?
 # 0: is yes, 1: is no
 if [ $response -eq 0 ]; then
   arch-chroot /mnt bash "${arch_installer_root}/02_install_chroot.sh"
-  . "${arch_installer_root}/05_install_farewell.sh"
+  . "/mnt/${arch_installer_root}/05_install_farewell.sh"
 else
   arch-chroot /mnt
   echo "You are able to call manually install scripts now and debug if needed"
