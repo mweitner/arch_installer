@@ -109,18 +109,22 @@ partprobe "$hd"
 
 #
 # Formatting partitions
-# assuming 2 and 3 partition numbers created by fdisk on empty disk
+# first extract partition paths into array
+# partition_list[1] := boot partition
+# parition_list[2] := swap partition
+# parition_list[3] := rootfs partition
 #
-mkswap "${hd}2"
-swapon "${hd}2"
+partition_list=($(lsblk -o PATH,TYPE |grep "$hd" |grep "part" |awk '{print $1}'))
+mkswap "${partition_list[2]}"
+swapon "${partition_list[2]}"
 
-mkfs.ext4 "${hd}3"
-mount "${hd}3" /mnt
+mkfs.ext4 "${partition_list[3]}"
+mount "${partition_list[3]}" /mnt
 
 if [ "$uefi" = 1 ]; then
-  mkfd.fat -F32 "${hd}1"
+  mkfd.fat -F32 "${partition_list[1]}"
   mkdir -p /mnt/boot/efi
-  mount "${hd}1" /mnt/boot/efi
+  mount "${partition_list[1]}" /mnt/boot/efi
 fi
 
 #####################
