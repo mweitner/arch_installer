@@ -32,6 +32,7 @@ i3,i3lock,i3 lock monitor
 i3,dmenu,Dynamic menu for X
 i3,feh,X11 image viewer
 i3,imagemagick,An image viewing/manipulation program
+i3,perl-anyevent-i3,Communicate with the i3 window manager
 shell,zsh,Unix shell (Z-Shell)
 shell,zsh-completions,Additional completions for Zsh
 shell,zsh-syntax-highlighting,Syntax highlighting for ZSH
